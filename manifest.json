@@ -1,0 +1,15 @@
+{
+  "name": "Hafalan Juz 'Amma",
+  "short_name": "Juz 30",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f6faf7",
+  "theme_color": "#0f3d2e",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
