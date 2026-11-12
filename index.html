@@ -31,8 +31,6 @@ body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradi
 .card.done .check-badge{display:grid}
 .card.done .card-right{margin-right:26px}
 .loading{padding:30px;text-align:center;color:#6b8f71;font-weight:700}
-
-/* Modal Daftar Ayat */
 .modal-bg{position:fixed;inset:0;background:rgba(7,22,17,.45);backdrop-filter:blur(8px);display:none;z-index:50;align-items:center;justify-content:center;padding:16px}
 .modal-bg.show{display:flex}
 .sheet{background:#fff;width:100%;max-width:520px;max-height:85vh;border-radius:28px;overflow:hidden;display:flex;flex-direction:column;animation:up .35s cubic-bezier(.16,1,.3,1);box-shadow:0 20px 60px rgba(0,0,0,.25)}
@@ -40,13 +38,11 @@ body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradi
 .sheet-head{padding:16px 18px;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center}
 .sheet-head h2{margin:0;font-size:18px;font-weight:800;color:#0f3d2e}
 .handle-bar{width:40px;height:5px;background:#ddd;border-radius:999px;margin:8px auto 0;cursor:pointer}
-.list{overflow:auto;flex:1}
+.list{overflow:auto;flex:1;-webkit-overflow-scrolling:touch}
 .item{padding:14px 18px;display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #fafafa;cursor:pointer;align-items:center}
 .item:active{background:#f4f9f5}
 .arab{font-family:'Amiri',serif;font-size:22px;font-weight:700;direction:rtl;flex:1;color:#0f3d2e}
 .num{width:30px;height:30px;border-radius:10px;background:#e8f5e9;color:#1b5e20;display:grid;place-items:center;font-size:12px;font-weight:800;flex-shrink:0}
-
-/* Fullscreen Ayat & Terjemahan */
 .full-bg{position:fixed;inset:0;background:rgba(7,22,17,.55);backdrop-filter:blur(10px);display:none;z-index:60;align-items:center;justify-content:center;padding:16px}
 .full-bg.show{display:flex}
 .full{background:#fff;border-radius:24px;width:100%;max-width:420px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3)}
@@ -60,317 +56,37 @@ body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradi
 </style>
 </head>
 <body>
-
-<div class="header">
-  <div class="brand">
-    <div class="logo">ق</div>
-    <div>
-      <h1>Hafalan Juz 'Amma</h1>
-      <p>KHUSUS JUZ 30</p>
-    </div>
-  </div>
-</div>
-
-<div class="stats">
-  <div class="stat"><div><span>SURAT SELESAI</span><br><b id="stDone">0 / 0</b></div><div>✅</div></div>
-  <div class="stat"><div><span>PROGRESS</span><br><b id="stProg">0%</b></div><div>🌿</div></div>
-</div>
-
-<div class="grid" id="grid">
-  <div class="loading">⏳ Memuat data surat...</div>
-</div>
-
-<!-- Modal Daftar Ayat -->
-<div class="modal-bg" id="detailModal">
-  <div class="sheet" id="modalSheetContent">
-    <div class="handle-bar" onclick="closeModal()"></div>
-    <div class="sheet-head">
-      <h2 id="modalTitle">Surat</h2>
-      <span style="cursor:pointer;font-size:24px;padding:4px" onclick="closeModal()">×</span>
-    </div>
-    <div class="list" id="modalAyahList"></div>
-  </div>
-</div>
-
-<!-- Modal Tampilan Ayat Penuh & Terjemahan -->
-<div class="full-bg" id="ayahFullModal">
-  <div class="full" id="ayahFullContent">
-    <div class="full-head">
-      <div>
-        <b id="fullTitle" style="font-size:15px">Ayat</b><br>
-        <span id="fullSub" style="font-size:10px;opacity:.8">Juz 30</span>
-      </div>
-      <span style="cursor:pointer;font-size:24px" onclick="closeFullModal()">×</span>
-    </div>
-    <div class="full-body" id="fullBodyScroll">
-      <div class="full-arab" id="fullArabic"></div>
-      <div id="transBox" style="display:none;margin-top:16px;text-align:left;background:#f0f7f2;border:1px dashed #a5d6a7;border-radius:14px;padding:12px 14px">
-        <div style="font-size:9px;font-weight:800;letter-spacing:1px;color:#2d6a4f;margin-bottom:6px">✦ TERJEMAHAN</div>
-        <div id="transText" style="font-size:13px;line-height:1.6;color:#1b4332">Memuat...</div>
-      </div>
-    </div>
-    <div class="actions">
-      <button class="btn btn-green" id="transBtn" onclick="toggleTrans()">📖 Terjemahan</button>
-      <button class="btn btn-green" onclick="copyAyah()">📋 Salin</button>
-      <button class="btn btn-gray" onclick="closeFullModal()">Tutup</button>
-    </div>
-  </div>
-</div>
-
+<div class="header"><div class="brand"><div class="logo">ق</div><div><h1>Hafalan Juz 'Amma</h1><p>KHUSUS JUZ 30</p></div></div></div>
+<div class="stats"><div class="stat"><div><span>SURAT SELESAI</span><br><b id="stDone">0 / 0</b></div><div>✅</div></div><div class="stat"><div><span>PROGRESS</span><br><b id="stProg">0%</b></div><div>🌿</div></div></div>
+<div class="grid" id="grid"><div class="loading">⏳ Memuat data surat...</div></div>
+<div class="modal-bg" id="detailModal"><div class="sheet" id="modalSheetContent"><div class="handle-bar" onclick="closeModal()"></div><div class="sheet-head"><h2 id="modalTitle">Surat</h2><span style="cursor:pointer;font-size:24px;padding:4px" onclick="closeModal()">×</span></div><div class="list" id="modalAyahList"></div></div></div>
+<div class="full-bg" id="ayahFullModal"><div class="full" id="ayahFullContent"><div class="full-head"><div><b id="fullTitle" style="font-size:15px">Ayat</b><br><span id="fullSub" style="font-size:10px;opacity:.8">Juz 30</span></div><span style="cursor:pointer;font-size:24px" onclick="closeFullModal()">×</span></div><div class="full-body" id="fullBodyScroll"><div class="full-arab" id="fullArabic"></div><div id="transBox" style="display:none;margin-top:16px;text-align:left;background:#f0f7f2;border:1px dashed #a5d6a7;border-radius:14px;padding:12px 14px"><div style="font-size:9px;font-weight:800;letter-spacing:1px;color:#2d6a4f;margin-bottom:6px">✦ TERJEMAHAN</div><div id="transText" style="font-size:13px;line-height:1.6;color:#1b4332">Memuat...</div></div></div><div class="actions"><button class="btn btn-green" id="transBtn" onclick="toggleTrans()">📖 Terjemahan</button><button class="btn btn-green" onclick="copyAyah()">📋 Salin</button><button class="btn btn-gray" onclick="closeFullModal()">Tutup</button></div></div></div>
 <script>
-// PWA Service Worker Registration
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('SW terdaftar!', reg))
-      .catch(err => console.log('SW gagal:', err));
-  });
-}
-
-const daftarSurat = {};
-let suratKeys = [];
-
-window.registerSurat = function(id, data) {
-  daftarSurat[id] = data;
-  suratKeys = Object.keys(daftarSurat);
-  renderGrid();
-};
-
-let doneList = JSON.parse(localStorage.getItem('juz30_done') || '[]');
-const grid = document.getElementById('grid');
-
-function renderGrid() {
-  grid.innerHTML = '';
-  if(suratKeys.length === 0) {
-    grid.innerHTML = '<div class="loading">❌ Belum ada file surat .js yang dimuat!</div>';
-    return;
-  }
-
-  let doneCount = doneList.filter(id => daftarSurat[id]).length;
-  let totalSurat = suratKeys.length;
-  document.getElementById('stDone').innerText = doneCount + ' / ' + totalSurat;
-  document.getElementById('stProg').innerText = Math.round((doneCount / totalSurat) * 100) + '%';
-
-  suratKeys.forEach((id, index) => {
-    let surat = daftarSurat[id];
-    let isDone = doneList.includes(id);
-    let card = document.createElement('div');
-    card.className = 'card ' + (isDone ? 'done' : '');
-    card.innerHTML = `
-      <div class="check-badge">✓</div>
-      <div class="card-left">
-        <div class="card-title">${surat.nomor || (index + 78)}. ${surat.nama}</div>
-        <div class="card-sub">${surat.arti} • ${surat.ayat} Ayat</div>
-      </div>
-      <div class="card-right">${surat.awal}</div>
-    `;
-    
-    card.onclick = () => openModal(surat);
-
-    let t;
-    card.addEventListener('touchstart', () => { t = setTimeout(() => toggleDone(id), 600); });
-    card.addEventListener('touchend', () => clearTimeout(t));
-    card.addEventListener('contextmenu', e => { e.preventDefault(); toggleDone(id); });
-
-    grid.appendChild(card);
-  });
-}
-
-function toggleDone(id) {
-  if (doneList.includes(id)) {
-    doneList = doneList.filter(x => x !== id);
-  } else {
-    doneList.push(id);
-  }
-  localStorage.setItem('juz30_done', JSON.stringify(doneList));
-  renderGrid();
-}
-
-let activeSurat = null;
-function openModal(surat) {
-  activeSurat = surat;
-  document.getElementById('modalTitle').innerText = surat.nama + ' (' + surat.ayat + ' Ayat)';
-  let list = document.getElementById('modalAyahList');
-  list.innerHTML = '';
-
-  surat.ayats.forEach(ay => {
-    let item = document.createElement('div');
-    item.className = 'item';
-    item.innerHTML = `
-      <span class="num">${ay.no}</span>
-      <span class="arab">${ay.text}</span>
-    `;
-    item.onclick = () => openFullAyah(surat, ay);
-    list.appendChild(item);
-  });
-
-  document.getElementById('detailModal').classList.add('show');
-}
-
-function closeModal() {
-  document.getElementById('detailModal').classList.remove('show');
-}
-
-function navSurat(direction) {
-  if (!activeSurat) return;
-  let currentIndex = suratKeys.findIndex(k => daftarSurat[k] === activeSurat);
-  let newIndex = currentIndex + direction;
-  if (newIndex >= 0 && newIndex < suratKeys.length) {
-    openModal(daftarSurat[suratKeys[newIndex]]);
-  }
-}
-
-let currentAyahObj = null;
-let transVisible = false;
-function openFullAyah(surat, ay) {
-  currentAyahObj = ay;
-  document.getElementById('fullTitle').innerText = surat.nama + ' : Ayat ' + ay.no;
-  document.getElementById('fullArabic').innerText = ay.text;
-  document.getElementById('ayahFullModal').classList.add('show');
-  document.getElementById('transBox').style.display = 'none';
-  transVisible = false;
-  document.getElementById('transBtn').innerText = '📖 Terjemahan';
-}
-
-function closeFullModal() {
-  document.getElementById('ayahFullModal').classList.remove('show');
-}
-
-function navAyah(direction) {
-  if (!activeSurat) return;
-  let currentIndex = activeSurat.ayats.findIndex(a => a.no === currentAyahObj.no);
-  let newIndex = currentIndex + direction;
-  if (newIndex >= 0 && newIndex < activeSurat.ayats.length) {
-    openFullAyah(activeSurat, activeSurat.ayats[newIndex]);
-  }
-}
-
-async function toggleTrans() {
-  let box = document.getElementById('transBox');
-  let btn = document.getElementById('transBtn');
-  let txt = document.getElementById('transText');
-  
-  if(transVisible) {
-    box.style.display = 'none';
-    transVisible = false;
-    btn.innerText = '📖 Terjemahan';
-    return;
-  }
-  
-  box.style.display = 'block';
-  transVisible = true;
-  btn.innerText = '🙈 Sembunyikan';
-  txt.innerText = '⏳ Memuat terjemahan...';
-
-  try {
-    let res = await fetch(`https://api.quran.com/api/v4/verses/by_key/${activeSurat.chapter || 78}:${currentAyahObj.no}?language=id&translations=33&text_type=translation`);
-    let data = await res.json();
-    let trans = data.translations?.[0]?.text || '';
-    if(trans) {
-      txt.innerText = trans.replace(/<[^>]*>/g,'');
-    } else {
-      txt.innerText = 'Terjemahan tidak ditemukan.';
-    }
-  } catch(e) {
-    txt.innerText = 'Gagal memuat terjemahan online.';
-  }
-}
-
-function copyAyah() {
-  let text = document.getElementById('fullArabic').innerText;
-  navigator.clipboard.writeText(text).then(() => alert('Ayat disalin!'));
-}
-
-// Swipe handler Fullscreen Ayat (Aman)
-let touchStartX = 0, touchstartY = 0;
-const fullContentEl = document.getElementById('ayahFullContent');
-fullContentEl.addEventListener('touchstart', e => {
-  touchStartX = e.changedTouches[0].screenX;
-  touchstartY = e.changedTouches[0].screenY;
-}, {passive: true});
-
-fullContentEl.addEventListener('touchend', e => {
-  let diffX = e.changedTouches[0].screenX - touchStartX;
-  let diffY = e.changedTouches[0].screenY - touchstartY;
-  if (Math.abs(diffX) > 60 && Math.abs(diffX) > Math.abs(diffY)) {
-    if (diffX < 0) navAyah(-1);
-    else navAyah(1);
-  }
-}, {passive: true});
-
-// Swipe handler Modal Daftar Surat (Proteksi ketat supaya scroll normal aman)
-let modalStartX = 0, modalStartY = 0;
-const modalSheetEl = document.getElementById('modalSheetContent');
-const modalListEl = modalSheetEl.querySelector('.list');
-
-modalSheetEl.addEventListener('touchstart', e => {
-  // Jika list sedang di-scroll ke bawah (bukan di paling atas), matikan pelacakan swipe
-  if (modalListEl.scrollTop > 5) {
-    modalStartX = null;
-    modalStartY = null;
-    return;
-  }
-  modalStartX = e.changedTouches[0].screenX;
-  modalStartY = e.changedTouches[0].screenY;
-}, {passive: true});
-
-modalSheetEl.addEventListener('touchend', e => {
-  if (modalStartX === null || modalStartY === null) return;
-  if (modalListEl.scrollTop > 5) return;
-
-  let diffX = e.changedTouches[0].screenX - modalStartX;
-  let diffY = e.changedTouches[0].screenY - modalStartY;
-  
-  if (diffY > 90 && Math.abs(diffY) > Math.abs(diffX)) {
-    closeModal();
-  } else if (Math.abs(diffX) > 70 && Math.abs(diffX) > Math.abs(diffY)) {
-    if (diffX < 0) navSurat(-1);
-    else navSurat(1);
-  }
-}, {passive: true});
-
-document.getElementById('detailModal').addEventListener('click', e => { if(e.target.id==='detailModal') closeModal(); });
-document.getElementById('ayahFullModal').addEventListener('click', e => { if(e.target.id==='ayahFullModal') closeFullModal(); });
+if ('serviceWorker' in navigator) {window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').then(r=>console.log('SW ok')).catch(e=>console.log(e))})}
+const daftarSurat={};let suratKeys=[];window.registerSurat=function(id,data){daftarSurat[id]=data;suratKeys=Object.keys(daftarSurat);renderGrid();}
+let doneList=JSON.parse(localStorage.getItem('juz30_done')||'[]');const grid=document.getElementById('grid');
+function renderGrid(){grid.innerHTML='';if(suratKeys.length===0){grid.innerHTML='<div class="loading">❌ Belum ada file surat .js yang dimuat!</div>';return;}let doneCount=doneList.filter(id=>daftarSurat[id]).length;let totalSurat=suratKeys.length;document.getElementById('stDone').innerText=doneCount+' / '+totalSurat;document.getElementById('stProg').innerText=Math.round((doneCount/totalSurat)*100)+'%';suratKeys.forEach((id,index)=>{let surat=daftarSurat[id];let isDone=doneList.includes(id);let card=document.createElement('div');card.className='card '+(isDone?'done':'');card.innerHTML=`<div class="check-badge">✓</div><div class="card-left"><div class="card-title">${surat.nomor||(index+78)}. ${surat.nama}</div><div class="card-sub">${surat.arti} • ${surat.ayat} Ayat</div></div><div class="card-right">${surat.awal}</div>`;card.onclick=()=>openModal(surat);let t;card.addEventListener('touchstart',()=>{t=setTimeout(()=>toggleDone(id),600)});card.addEventListener('touchend',()=>clearTimeout(t));card.addEventListener('contextmenu',e=>{e.preventDefault();toggleDone(id)});grid.appendChild(card)})}
+function toggleDone(id){if(doneList.includes(id)){doneList=doneList.filter(x=>x!==id)}else{doneList.push(id)}localStorage.setItem('juz30_done',JSON.stringify(doneList));renderGrid()}
+let activeSurat=null;function openModal(surat){activeSurat=surat;document.getElementById('modalTitle').innerText=surat.nama+' ('+surat.ayat+' Ayat)';let list=document.getElementById('modalAyahList');list.innerHTML='';surat.ayats.forEach(ay=>{let item=document.createElement('div');item.className='item';item.innerHTML=`<span class="num">${ay.no}</span><span class="arab">${ay.text}</span>`;item.onclick=()=>openFullAyah(surat,ay);list.appendChild(item)});document.getElementById('detailModal').classList.add('show')}
+function closeModal(){document.getElementById('detailModal').classList.remove('show')}
+function navSurat(direction){if(!activeSurat)return;let currentIndex=suratKeys.findIndex(k=>daftarSurat[k]===activeSurat);let newIndex=currentIndex+direction;if(newIndex>=0&&newIndex<suratKeys.length){openModal(daftarSurat[suratKeys[newIndex]])}}
+let currentAyahObj=null;let transVisible=false;
+function openFullAyah(surat,ay){currentAyahObj=ay;document.getElementById('fullTitle').innerText=surat.nama+' : Ayat '+ay.no;document.getElementById('fullArabic').innerText=ay.text;document.getElementById('ayahFullModal').classList.add('show');document.getElementById('transBox').style.display='none';transVisible=false;document.getElementById('transBtn').innerText='📖 Terjemahan'}
+function closeFullModal(){document.getElementById('ayahFullModal').classList.remove('show')}
+function navAyah(direction){if(!activeSurat)return;let currentIndex=activeSurat.ayats.findIndex(a=>a.no===currentAyahObj.no);let newIndex=currentIndex+direction;if(newIndex>=0&&newIndex<activeSurat.ayats.length){openFullAyah(activeSurat,activeSurat.ayats[newIndex])}}
+async function toggleTrans(){let box=document.getElementById('transBox');let btn=document.getElementById('transBtn');let txt=document.getElementById('transText');if(transVisible){box.style.display='none';transVisible=false;btn.innerText='📖 Terjemahan';return}box.style.display='block';transVisible=true;btn.innerText='🙈 Sembunyikan';txt.innerText='⏳ Memuat terjemahan...';try{let res=await fetch(`https://api.quran.com/api/v4/verses/by_key/${activeSurat.chapter||78}:${currentAyahObj.no}?language=id&translations=33&text_type=translation`);let data=await res.json();let trans=data.translations?.[0]?.text||'';if(trans){txt.innerText=trans.replace(/<[^>]*>/g,'')}else{txt.innerText='Terjemahan tidak ditemukan.'}}catch(e){txt.innerText='Gagal memuat terjemahan online.'}}
+function copyAyah(){let text=document.getElementById('fullArabic').innerText;navigator.clipboard.writeText(text).then(()=>alert('Ayat disalin!'))}
+// FINAL FIX - MODAL GAK ISO NUTUP DEWE PAS SCROLL MUNGGAH
+let touchStartX=0,touchStartY=0,modalStartX=0;
+const fullContentEl=document.getElementById('ayahFullContent');
+fullContentEl.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;touchStartY=e.changedTouches[0].screenY},{passive:true});
+fullContentEl.addEventListener('touchend',e=>{let diffX=e.changedTouches[0].screenX-touchStartX;let diffY=e.changedTouches[0].screenY-touchStartY;if(Math.abs(diffX)>60&&Math.abs(diffX)>Math.abs(diffY)*1.2){if(diffX<0)navAyah(1);else navAyah(-1)}},{passive:true});
+const modalSheetEl=document.getElementById('modalSheetContent');
+modalSheetEl.addEventListener('touchstart',e=>{modalStartX=e.changedTouches[0].screenX},{passive:true});
+modalSheetEl.addEventListener('touchend',e=>{let diffX=e.changedTouches[0].screenX-modalStartX;if(Math.abs(diffX)>80){if(diffX<0)navSurat(1);else navSurat(-1)}},{passive:true});
+document.getElementById('detailModal').addEventListener('click',e=>{if(e.target.id==='detailModal')closeModal()});
+document.getElementById('ayahFullModal').addEventListener('click',e=>{if(e.target.id==='ayahFullModal')closeFullModal()});
 </script>
-
-<!-- Daftar File Script Surat Juz 30 -->
-<script src="annaba.js"></script>
-<script src="annaziat.js"></script>
-<script src="abasa.js"></script>
-<script src="attakwir.js"></script>
-<script src="alinfitar.js"></script>
-<script src="almutaffifin.js"></script>
-<script src="alinsyiqaq.js"></script>
-<script src="alburuj.js"></script>
-<script src="attariq.js"></script>
-<script src="alala.js"></script>
-<script src="alghasyiyah.js"></script>
-<script src="alfajr.js"></script>
-<script src="albalad.js"></script>
-<script src="asyams.js"></script>
-<script src="allail.js"></script>
-<script src="adduha.js"></script>
-<script src="asyarh.js"></script>
-<script src="attin.js"></script>
-<script src="alalaq.js"></script>
-<script src="alqadr.js"></script>
-<script src="albayyinah.js"></script>
-<script src="azzalzalah.js"></script>
-<script src="aladiyat.js"></script>
-<script src="alqariah.js"></script>
-<script src="attakasur.js"></script>
-<script src="alasr.js"></script>
-<script src="alhumazah.js"></script>
-<script src="alfil.js"></script>
-<script src="quraisy.js"></script>
-<script src="almaun.js"></script>
-<script src="alkausar.js"></script>
-<script src="alkafirun.js"></script>
-<script src="annasr.js"></script>
-<script src="allahab.js"></script>
-<script src="alikhlas.js"></script>
-<script src="alfalaq.js"></script>
-<script src="annas.js"></script>
-
+<script src="annaba.js"></script><script src="annaziat.js"></script><script src="abasa.js"></script><script src="attakwir.js"></script><script src="alinfitar.js"></script><script src="almutaffifin.js"></script><script src="alinsyiqaq.js"></script><script src="alburuj.js"></script><script src="attariq.js"></script><script src="alala.js"></script><script src="alghasyiyah.js"></script><script src="alfajr.js"></script><script src="albalad.js"></script><script src="asyams.js"></script><script src="allail.js"></script><script src="adduha.js"></script><script src="asyarh.js"></script><script src="attin.js"></script><script src="alalaq.js"></script><script src="alqadr.js"></script><script src="albayyinah.js"></script><script src="azzalzalah.js"></script><script src="aladiyat.js"></script><script src="alqariah.js"></script><script src="attakasur.js"></script><script src="alasr.js"></script><script src="alhumazah.js"></script><script src="alfil.js"></script><script src="quraisy.js"></script><script src="almaun.js"></script><script src="alkausar.js"></script><script src="alkafirun.js"></script><script src="annasr.js"></script><script src="allahab.js"></script><script src="alikhlas.js"></script><script src="alfalaq.js"></script><script src="annas.js"></script>
 </body>
 </html>
