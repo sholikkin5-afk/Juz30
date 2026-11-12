@@ -298,18 +298,24 @@ fullContentEl.addEventListener('touchend', e => {
   }
 }, {passive: true});
 
-// Swipe handler Modal Daftar Surat (Diberi proteksi scrollTop supaya scroll aman)
+// Swipe handler Modal Daftar Surat (Proteksi ketat supaya scroll normal aman)
 let modalStartX = 0, modalStartY = 0;
 const modalSheetEl = document.getElementById('modalSheetContent');
 const modalListEl = modalSheetEl.querySelector('.list');
 
 modalSheetEl.addEventListener('touchstart', e => {
+  // Jika list sedang di-scroll ke bawah (bukan di paling atas), matikan pelacakan swipe
+  if (modalListEl.scrollTop > 5) {
+    modalStartX = null;
+    modalStartY = null;
+    return;
+  }
   modalStartX = e.changedTouches[0].screenX;
   modalStartY = e.changedTouches[0].screenY;
 }, {passive: true});
 
 modalSheetEl.addEventListener('touchend', e => {
-  // Hanya aktifkan gesture swipe jika list berada di posisi paling atas (scrollTop === 0)
+  if (modalStartX === null || modalStartY === null) return;
   if (modalListEl.scrollTop > 5) return;
 
   let diffX = e.changedTouches[0].screenX - modalStartX;
